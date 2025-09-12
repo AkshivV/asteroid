@@ -3,6 +3,9 @@ from constants import *
 from circleshape import CircleShape
 from player import Player
 
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+
 def main():
     pygame.init()
     print("Starting Asteroids!")
@@ -10,6 +13,8 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    Player.containers = (updatable, drawable)
 
     clock = pygame.time.Clock()
     dt = 0
@@ -23,10 +28,13 @@ def main():
 
         dt = clock.tick(60) / 1000
         
-        game_player.update(dt)
-        
+        updatable.update(dt)
+
         screen.fill("black")
-        game_player.draw(screen)
+        
+        for item in drawable:
+            item.draw(screen)
+        
         pygame.display.flip()
         
         
